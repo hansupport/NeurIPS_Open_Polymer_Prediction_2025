@@ -1,0 +1,2 @@
+!!!!!! Experiment 25 FAILED !!!!!!
+Error: name 'redirect_stdout' is not defined
