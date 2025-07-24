@@ -5,6 +5,7 @@ import time
 from pathlib import Path
 from collections import defaultdict
 import pandas as pd
+import contextlib
 from tqdm import tqdm
 from tqdm.contrib import DummyTqdmFile
 
@@ -2079,6 +2080,26 @@ def run_single_experiment(params, output_dir):
     return result
 
 
+@contextlib.contextmanager
+def redirect_to_tqdm():
+    """
+    모든 표준 출력(stdout)과 표준 에러(stderr)를 tqdm과 호환되도록 리디렉션하는
+    컨텍스트 매니저입니다.
+    """
+    # 기존의 stdout과 stderr를 저장합니다.
+    original_stdout, original_stderr = sys.stdout, sys.stderr
+    try:
+        # 출력을 DummyTqdmFile로 감싸서 tqdm과 호환되도록 만듭니다.
+        sys.stdout, sys.stderr = map(DummyTqdmFile, (original_stdout, original_stderr))
+        # with 블록이 시작되면 이 코드를 실행합니다.
+        yield
+    except Exception as exc:
+        raise exc
+    finally:
+        # with 블록이 어떻게 끝나든, 반드시 원래의 stdout, stderr로 복원합니다.
+        sys.stdout, sys.stderr = original_stdout, original_stderr
+
+
 # 모델 설정 (실험 관련 파라미터)
 experiment_params = [
     # Row 1
@@ -2156,28 +2177,25 @@ MAIN_OUTPUT_DIR.mkdir(exist_ok=True)
 # 1. tqdm 객체를 먼저 생성하고, file=sys.stdout 인자를 전달
 progress_bar = tqdm(experiment_params, desc="Running Experiments", file=sys.stdout, dynamic_ncols=True)
 
-# 2. 전체 루프를 새로 정의한 컨텍스트 매니저로 감싸
-with redirect_to_tqdm():
-    for idx, params in enumerate(progress_bar):
-        exp_num = idx + 1
-        OUTPUT_DIR = MAIN_OUTPUT_DIR / f"Output{exp_num}"
-        OUTPUT_DIR.mkdir(exist_ok=True, parents=True)
+# 새로 정의한 redirect_to_tqdm 함수로 전체 루프를 감싸줌
+for idx, params in enumerate(progress_bar):
+    exp_num = idx + 1
+    OUTPUT_DIR = MAIN_OUTPUT_DIR / f"Output{exp_num}"
+    OUTPUT_DIR.mkdir(exist_ok=True, parents=True)
 
-        log_filename = OUTPUT_DIR / f"experiment_{exp_num}_log.txt"
-        logger = None  # logger 초기화
-
+    log_filename = OUTPUT_DIR / f"experiment_{exp_num}_log.txt"
+    logger = None  # logger 초기화
+    with redirect_to_tqdm():
         try:
-            # TeeLogger는 이제 redirect_to_tqdm이 만들어준 환경에서 안전하게 동작
             logger = TeeLogger(str(log_filename), mode='w')
 
-            # ✅ 함수화된 실험 로직 호출
+            # ✅ 함수화된 실험 로직 호출 (내부의 print문 수정 불필요)
             result = run_single_experiment(params, OUTPUT_DIR)
             result['experiment_id'] = exp_num
             result['status'] = 'Success'
             all_results.append(result)
 
         except Exception as e:
-            # ✅ 에러 발생 시 로그 남기고 계속 진행
             error_message = f"!!!!!! Experiment {exp_num} FAILED !!!!!!\nError: {e}"
             print(error_message)
 

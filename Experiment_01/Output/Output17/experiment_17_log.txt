@@ -1,2 +1,0 @@
-!!!!!! Experiment 17 FAILED !!!!!!
-Error: name 'redirect_stdout' is not defined
