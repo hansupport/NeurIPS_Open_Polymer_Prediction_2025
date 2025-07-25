@@ -412,10 +412,10 @@ def run_single_experiment(params, output_dir):
         common_feature_list = list(required_descriptors)
         filters_required = {
             'Tg': common_feature_list,
-            'Melting_Point': common_feature_list,
-            'Boiling_Point': common_feature_list,
-            'Solubility': common_feature_list,
-            'LogP': common_feature_list
+            'FFV': common_feature_list,
+            'Tc': common_feature_list,
+            'Density': common_feature_list,
+            'Rg': common_feature_list
         }
         RDKit_FILTER_MODE = 'required'
 
@@ -1150,7 +1150,8 @@ def run_single_experiment(params, output_dir):
         print("RUN_PREPROCESSING=True. 데이터 전처리를 시작합니다...")
 
         # 전처리, 전체 TARGETS 처리: main() 또는 일부만: main(['Tg','Density'])
-        main(PREPROCESS_TARGET)
+        if __name__ == "__main__":
+            main(PREPROCESS_TARGET)
 
         # 전처리가 완료되었으므로, 이후 훈련 단계에서 사용할 데이터 경로를
         # 전처리 결과물이 있는 폴더로 변경합니다.
@@ -2257,11 +2258,11 @@ experiment_params = [
     # Row 1
     {"DO_RDKit": True, "DO_POLYBERT": False, "DO_FINGERPRINT": False, "RDKit_FILTER_MODE": "required", "DO_AUGMENT_SMILES": False, "AUG_NUM": 0, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": False, "VARIANCE_THRESHOLD": 0, "DO_StandardScaler": False, "N_SPLITS": 5},
     # Row 2
-    {"DO_RDKit": True, "DO_POLYBERT": False, "DO_FINGERPRINT": False, "RDKit_FILTER_MODE": "required2", "DO_AUGMENT_SMILES": True, "AUG_NUM": 1, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.1, "DO_StandardScaler": False, "N_SPLITS": 10},
+    {"DO_RDKit": True, "DO_POLYBERT": False, "DO_FINGERPRINT": False, "RDKit_FILTER_MODE": "required", "DO_AUGMENT_SMILES": True, "AUG_NUM": 1, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.1, "DO_StandardScaler": False, "N_SPLITS": 10},
     # Row 3
     {"DO_RDKit": True, "DO_POLYBERT": False, "DO_FINGERPRINT": False, "RDKit_FILTER_MODE": "required", "DO_AUGMENT_SMILES": False, "AUG_NUM": 0, "DO_GMM_AUGMENT": True, "GMM_SAMPLES": 100, "GMM_COMPONENTS": 3, "GMM_RANDOM_STATE": 42, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.01, "DO_StandardScaler": True, "N_SPLITS": 5},
     # Row 4
-    {"DO_RDKit": True, "DO_POLYBERT": False, "DO_FINGERPRINT": False, "RDKit_FILTER_MODE": "required2", "DO_AUGMENT_SMILES": True, "AUG_NUM": 3, "DO_GMM_AUGMENT": True, "GMM_SAMPLES": 500, "GMM_COMPONENTS": 5, "GMM_RANDOM_STATE": 42, "DO_VARIANCE_THRESHOLD": False, "VARIANCE_THRESHOLD": 0, "DO_StandardScaler": True, "N_SPLITS": 10},
+    {"DO_RDKit": True, "DO_POLYBERT": False, "DO_FINGERPRINT": False, "RDKit_FILTER_MODE": "required", "DO_AUGMENT_SMILES": True, "AUG_NUM": 3, "DO_GMM_AUGMENT": True, "GMM_SAMPLES": 500, "GMM_COMPONENTS": 5, "GMM_RANDOM_STATE": 42, "DO_VARIANCE_THRESHOLD": False, "VARIANCE_THRESHOLD": 0, "DO_StandardScaler": True, "N_SPLITS": 10},
     # Row 5
     {"DO_RDKit": False, "DO_POLYBERT": True, "DO_FINGERPRINT": False, "RDKit_FILTER_MODE": 0, "DO_AUGMENT_SMILES": True, "AUG_NUM": 5, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.001, "DO_StandardScaler": False, "N_SPLITS": 5},
     # Row 6
@@ -2281,17 +2282,17 @@ experiment_params = [
     # Row 13
     {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": False, "RDKit_FILTER_MODE": "required", "DO_AUGMENT_SMILES": False, "AUG_NUM": 0, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.1, "DO_StandardScaler": True, "N_SPLITS": 5},
     # Row 14
-    {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": False, "RDKit_FILTER_MODE": "required2", "DO_AUGMENT_SMILES": True, "AUG_NUM": 1, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": False, "VARIANCE_THRESHOLD": 0, "DO_StandardScaler": True, "N_SPLITS": 10},
+    {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": False, "RDKit_FILTER_MODE": "required", "DO_AUGMENT_SMILES": True, "AUG_NUM": 1, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": False, "VARIANCE_THRESHOLD": 0, "DO_StandardScaler": True, "N_SPLITS": 10},
     # Row 15
     {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": False, "RDKit_FILTER_MODE": "required", "DO_AUGMENT_SMILES": True, "AUG_NUM": 3, "DO_GMM_AUGMENT": True, "GMM_SAMPLES": 100, "GMM_COMPONENTS": 3, "GMM_RANDOM_STATE": 42, "DO_VARIANCE_THRESHOLD": False, "VARIANCE_THRESHOLD": 0, "DO_StandardScaler": False, "N_SPLITS": 5},
     # Row 16
-    {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": False, "RDKit_FILTER_MODE": "required2", "DO_AUGMENT_SMILES": False, "AUG_NUM": 0, "DO_GMM_AUGMENT": True, "GMM_SAMPLES": 500, "GMM_COMPONENTS": 5, "GMM_RANDOM_STATE": 42, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.01, "DO_StandardScaler": False, "N_SPLITS": 10},
+    {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": False, "RDKit_FILTER_MODE": "required", "DO_AUGMENT_SMILES": False, "AUG_NUM": 0, "DO_GMM_AUGMENT": True, "GMM_SAMPLES": 500, "GMM_COMPONENTS": 5, "GMM_RANDOM_STATE": 42, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.01, "DO_StandardScaler": False, "N_SPLITS": 10},
     # Row 17
-    {"DO_RDKit": True, "DO_POLYBERT": False, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "required2", "DO_AUGMENT_SMILES": False, "AUG_NUM": 0, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": False, "VARIANCE_THRESHOLD": 0, "DO_StandardScaler": False, "N_SPLITS": 5},
+    {"DO_RDKit": True, "DO_POLYBERT": False, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "required", "DO_AUGMENT_SMILES": False, "AUG_NUM": 0, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": False, "VARIANCE_THRESHOLD": 0, "DO_StandardScaler": False, "N_SPLITS": 5},
     # Row 18
     {"DO_RDKit": True, "DO_POLYBERT": False, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "required", "DO_AUGMENT_SMILES": True, "AUG_NUM": 5, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.001, "DO_StandardScaler": False, "N_SPLITS": 10},
     # Row 19
-    {"DO_RDKit": True, "DO_POLYBERT": False, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "required2", "DO_AUGMENT_SMILES": True, "AUG_NUM": 1, "DO_GMM_AUGMENT": True, "GMM_SAMPLES": 1000, "GMM_COMPONENTS": 7, "GMM_RANDOM_STATE": 42, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.1, "DO_StandardScaler": True, "N_SPLITS": 5},
+    {"DO_RDKit": True, "DO_POLYBERT": False, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "required", "DO_AUGMENT_SMILES": True, "AUG_NUM": 1, "DO_GMM_AUGMENT": True, "GMM_SAMPLES": 1000, "GMM_COMPONENTS": 7, "GMM_RANDOM_STATE": 42, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.1, "DO_StandardScaler": True, "N_SPLITS": 5},
     # Row 20
     {"DO_RDKit": True, "DO_POLYBERT": False, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "required", "DO_AUGMENT_SMILES": False, "AUG_NUM": 0, "DO_GMM_AUGMENT": True, "GMM_SAMPLES": 100, "GMM_COMPONENTS": 3, "GMM_RANDOM_STATE": 42, "DO_VARIANCE_THRESHOLD": False, "VARIANCE_THRESHOLD": 0, "DO_StandardScaler": True, "N_SPLITS": 10},
     # Row 21
@@ -2305,19 +2306,19 @@ experiment_params = [
     # Row 25
     {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "required", "DO_AUGMENT_SMILES": False, "AUG_NUM": 0, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": False, "VARIANCE_THRESHOLD": 0, "DO_StandardScaler": False, "N_SPLITS": 5},
     # Row 26
-    {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "required2", "DO_AUGMENT_SMILES": True, "AUG_NUM": 1, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.1, "DO_StandardScaler": False, "N_SPLITS": 10},
+    {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "required", "DO_AUGMENT_SMILES": True, "AUG_NUM": 1, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.1, "DO_StandardScaler": False, "N_SPLITS": 10},
     # Row 27
     {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "required", "DO_AUGMENT_SMILES": False, "AUG_NUM": 0, "DO_GMM_AUGMENT": True, "GMM_SAMPLES": 100, "GMM_COMPONENTS": 3, "GMM_RANDOM_STATE": 42, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.01, "DO_StandardScaler": True, "N_SPLITS": 5},
     # Row 28
-    {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "required2", "DO_AUGMENT_SMILES": True, "AUG_NUM": 3, "DO_GMM_AUGMENT": True, "GMM_SAMPLES": 500, "GMM_COMPONENTS": 5, "GMM_RANDOM_STATE": 42, "DO_VARIANCE_THRESHOLD": False, "VARIANCE_THRESHOLD": 0, "DO_StandardScaler": True, "N_SPLITS": 10},
+    {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "required", "DO_AUGMENT_SMILES": True, "AUG_NUM": 3, "DO_GMM_AUGMENT": True, "GMM_SAMPLES": 500, "GMM_COMPONENTS": 5, "GMM_RANDOM_STATE": 42, "DO_VARIANCE_THRESHOLD": False, "VARIANCE_THRESHOLD": 0, "DO_StandardScaler": True, "N_SPLITS": 10},
     # Row 29
     {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "required", "DO_AUGMENT_SMILES": True, "AUG_NUM": 5, "DO_GMM_AUGMENT": True, "GMM_SAMPLES": 1000, "GMM_COMPONENTS": 7, "GMM_RANDOM_STATE": 42, "DO_VARIANCE_THRESHOLD": False, "VARIANCE_THRESHOLD": 0, "DO_StandardScaler": False, "N_SPLITS": 5},
     # Row 30
-    {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "required2", "DO_AUGMENT_SMILES": False, "AUG_NUM": 0, "DO_GMM_AUGMENT": True, "GMM_SAMPLES": 100, "GMM_COMPONENTS": 3, "GMM_RANDOM_STATE": 42, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.001, "DO_StandardScaler": False, "N_SPLITS": 10},
+    {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "required", "DO_AUGMENT_SMILES": False, "AUG_NUM": 0, "DO_GMM_AUGMENT": True, "GMM_SAMPLES": 100, "GMM_COMPONENTS": 3, "GMM_RANDOM_STATE": 42, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.001, "DO_StandardScaler": False, "N_SPLITS": 10},
     # Row 31
     {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "required", "DO_AUGMENT_SMILES": True, "AUG_NUM": 1, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": False, "VARIANCE_THRESHOLD": 0, "DO_StandardScaler": True, "N_SPLITS": 5},
     # Row 32
-    {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "required2", "DO_AUGMENT_SMILES": False, "AUG_NUM": 0, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.1, "DO_StandardScaler": True, "N_SPLITS": 10}
+    {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "required", "DO_AUGMENT_SMILES": False, "AUG_NUM": 0, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.1, "DO_StandardScaler": True, "N_SPLITS": 10}
 ]
 
 # ✅ 모든 실험 결과를 저장할 리스트
