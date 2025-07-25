@@ -219,11 +219,11 @@ def run_single_experiment(params, output_dir):
     # 사용 가능한 모델: 'LGBM', 'XGB', 'CAT', 'ET', 'FTT'
     # ------> 모델 여러개 또는 0개 선택 가능 [] or ['LGBM'] or ['LGBM', 'XGB', 'CAT', 'ET', 'FTT']
     MODEL_CONFIG = {
-        'Tg': ['LGBM', 'XGB', 'CAT', 'ET', 'FTT'],
-        'FFV': ['LGBM', 'XGB', 'CAT', 'ET', 'FTT'],
-        'Tc': ['LGBM', 'XGB', 'CAT', 'ET', 'FTT'],
-        'Density': ['LGBM', 'XGB', 'CAT', 'ET', 'FTT'],
-        'Rg': ['LGBM', 'XGB', 'CAT', 'ET', 'FTT'],
+        'Tg': ['LGBM', 'XGB', 'CAT', 'ET'],
+        'FFV': ['LGBM', 'XGB', 'CAT', 'ET'],
+        'Tc': ['LGBM', 'XGB', 'CAT', 'ET'],
+        'Density': ['LGBM', 'XGB', 'CAT', 'ET'],
+        'Rg': ['LGBM', 'XGB', 'CAT', 'ET'],
     }
     # ------------------------------------------------------------
 
@@ -316,7 +316,7 @@ def run_single_experiment(params, output_dir):
 
     # 1) 필요한 특성만 추출
 
-    # 공통
+    # 만들어야 하는 것
     required_descriptors = {
         'graph_diameter', 'avg_shortest_path', 'num_cycles',
         'MolWt', 'MolLogP', 'TPSA', 'RotatableBonds', 'NumAtoms'
@@ -377,6 +377,47 @@ def run_single_experiment(params, output_dir):
             'fr_halogen'
         ]).union(required_descriptors))
     }
+
+    if RDKit_FILTER_MODE == 'required2':
+        required_descriptors = {
+            'MaxAbsEStateIndex', 'MinAbsEStateIndex', 'MinEStateIndex', 'qed', 'SPS', 'MolWt',
+            'FpDensityMorgan1', 'AvgIpc', 'BalabanJ', 'Ipc', 'Kappa2', 'PEOE_VSA1', 'PEOE_VSA10',
+            'PEOE_VSA11', 'PEOE_VSA12', 'PEOE_VSA13', 'PEOE_VSA14', 'PEOE_VSA2', 'PEOE_VSA3',
+            'PEOE_VSA4', 'PEOE_VSA5', 'PEOE_VSA6', 'PEOE_VSA7', 'PEOE_VSA8', 'PEOE_VSA9',
+            'SMR_VSA1', 'SMR_VSA10', 'SMR_VSA2', 'SMR_VSA3', 'SMR_VSA4', 'SMR_VSA5', 'SMR_VSA6',
+            'SMR_VSA7', 'SMR_VSA9', 'SlogP_VSA1', 'SlogP_VSA10', 'SlogP_VSA11', 'SlogP_VSA12',
+            'SlogP_VSA2', 'SlogP_VSA3', 'SlogP_VSA4', 'SlogP_VSA5', 'SlogP_VSA7', 'SlogP_VSA8',
+            'TPSA', 'EState_VSA1', 'EState_VSA10', 'EState_VSA11', 'EState_VSA2', 'EState_VSA3',
+            'EState_VSA4', 'EState_VSA5', 'EState_VSA6', 'EState_VSA7', 'EState_VSA8', 'EState_VSA9',
+            'VSA_EState1', 'VSA_EState10', 'VSA_EState2', 'VSA_EState3', 'VSA_EState4',
+            'VSA_EState5', 'VSA_EState7', 'VSA_EState8', 'VSA_EState9', 'FractionCSP3',
+            'NHOHCount', 'NumAliphaticCarbocycles', 'NumAliphaticHeterocycles', 'NumAliphaticRings',
+            'NumAmideBonds', 'NumAromaticHeterocycles', 'NumAtomStereoCenters', 'NumBridgeheadAtoms',
+            'NumHAcceptors', 'NumHeteroatoms', 'NumHeterocycles', 'NumRotatableBonds',
+            'NumSaturatedCarbocycles', 'NumSaturatedHeterocycles', 'NumSaturatedRings',
+            'NumSpiroAtoms', 'NumUnspecifiedAtomStereoCenters', 'RingCount', 'MolLogP', 'fr_Al_COO',
+            'fr_Al_OH', 'fr_Al_OH_noTert', 'fr_ArN', 'fr_Ar_COO', 'fr_Ar_N', 'fr_Ar_NH', 'fr_Ar_OH',
+            'fr_COO', 'fr_C_S', 'fr_HOCCN', 'fr_Imine', 'fr_NH0', 'fr_NH1', 'fr_NH2', 'fr_N_O',
+            'fr_Ndealkylation1', 'fr_Ndealkylation2', 'fr_SH', 'fr_aldehyde', 'fr_alkyl_carbamate',
+            'fr_alkyl_halide', 'fr_allylic_oxid', 'fr_amidine', 'fr_aniline', 'fr_aryl_methyl',
+            'fr_azide', 'fr_azo', 'fr_bicyclic', 'fr_ester', 'fr_ether', 'fr_furan', 'fr_guanido',
+            'fr_hdrzine', 'fr_hdrzone', 'fr_imidazole', 'fr_imide', 'fr_isocyan', 'fr_ketone',
+            'fr_ketone_Topliss', 'fr_lactone', 'fr_methoxy', 'fr_morpholine', 'fr_nitro',
+            'fr_nitro_arom_nonortho', 'fr_oxazole', 'fr_oxime', 'fr_para_hydroxylation', 'fr_phos_acid',
+            'fr_piperdine', 'fr_piperzine', 'fr_priamide', 'fr_pyridine', 'fr_quatN', 'fr_sulfide',
+            'fr_sulfonamd', 'fr_sulfone', 'fr_term_acetylene', 'fr_tetrazole', 'fr_thiazole',
+            'fr_thiophene', 'fr_unbrch_alkane', 'fr_urea', 'graph_diameter', 'avg_shortest_path',
+            'num_cycles'
+        }
+        common_feature_list = list(required_descriptors)
+        filters_required = {
+            'Tg': common_feature_list,
+            'Melting_Point': common_feature_list,
+            'Boiling_Point': common_feature_list,
+            'Solubility': common_feature_list,
+            'LogP': common_feature_list
+        }
+        RDKit_FILTER_MODE = 'required'
 
     # 드롭할 불필요 컬럼 리스트
     useless_cols = [
@@ -596,17 +637,78 @@ def run_single_experiment(params, output_dir):
 
     print("Library loading complete")
 
-    # 5. 외부 데이터셋 설정
-
-    # 1. 기본 데이터 로드
+    # ---------------------------------
+    # 외부 데이터셋 설정
+    # ---------------------------------
     BASE_PATH = 'Dataset/neurips-open-polymer-prediction-2025/'
+    TRAIN_CSV = BASE_PATH + 'train.csv'  # 사용자 코드의 변수명 사용
+    TEST_CSV = BASE_PATH + 'test.csv'  # 사용자 코드의 변수명 사용
     TARGETS = ['Tg', 'FFV', 'Tc', 'Density', 'Rg']
+    RDKIT_AVAILABLE = True
 
+    def clean_and_validate_smiles(smiles):
+        """SMILES를 정제하고 유효성을 검사하여 R-Group 등을 제거한 표준 형식으로 변환합니다."""
+        if not isinstance(smiles, str) or len(smiles) == 0:
+            return None
+
+        bad_patterns = [
+            '[R]', '[R1]', '[R2]', '[R3]', '[R4]', '[R5]',
+            "[R']", '[R"]', 'R1', 'R2', 'R3', 'R4', 'R5',
+            '([R])', '([R1])', '([R2])',
+        ]
+        for pattern in bad_patterns:
+            if pattern in smiles:
+                return None
+
+        if RDKIT_AVAILABLE:
+            try:
+                mol = Chem.MolFromSmiles(smiles)
+                if mol is not None:
+                    return Chem.MolToSmiles(mol, canonical=True)
+                else:
+                    return None
+            except:
+                return None
+        return smiles
+
+    def add_extra_data_clean(df_train, df_extra, target):
+        # 외부 데이터 정제
+        df_extra['SMILES'] = df_extra['SMILES'].apply(clean_and_validate_smiles)
+        df_extra = df_extra[df_extra['SMILES'].notnull()]
+        df_extra = df_extra.dropna(subset=[target])
+        if len(df_extra) == 0:
+            return df_train
+
+        # 중복 SMILES는 평균값으로 처리
+        df_extra = df_extra.groupby('SMILES', as_index=False)[target].mean()
+
+        # 1. 기존 데이터의 결측치 채우기
+        common_smiles = set(df_extra['SMILES']) & set(df_train['SMILES'])
+        for smile in common_smiles:
+            # train 데이터의 해당 타겟이 NaN인 경우에만 값 채우기
+            if pd.isna(df_train.loc[df_train['SMILES'] == smile, target].iloc[0]):
+                value_to_fill = df_extra.loc[df_extra['SMILES'] == smile, target].iloc[0]
+                df_train.loc[df_train['SMILES'] == smile, target] = value_to_fill
+
+        # 2. 새로운 데이터 추가 (train에 없는 SMILES만)
+        unique_smiles_extra = set(df_extra['SMILES']) - set(df_train['SMILES'])
+        extra_to_add = df_extra[df_extra['SMILES'].isin(unique_smiles_extra)].copy()
+
+        if len(extra_to_add) > 0:
+            for col in TARGETS:
+                if col not in extra_to_add.columns:
+                    extra_to_add[col] = np.nan
+            extra_to_add = extra_to_add[['SMILES'] + TARGETS]
+            df_train = pd.concat([df_train, extra_to_add], axis=0, ignore_index=True)
+
+        return df_train
+
+    # --- 1. 기본 데이터 로드 (사용자 코드 구조) ---
     print("📂 Loading base train/test data...")
     train = pd.read_csv(TRAIN_CSV)
     test_df = pd.read_csv(TEST_CSV)
 
-    # Clean SMILES 함수가 반드시 정의되어 있어야 함
+    # Clean SMILES 함수 적용
     train['SMILES'] = train['SMILES'].apply(clean_and_validate_smiles)
     test_df['SMILES'] = test_df['SMILES'].apply(clean_and_validate_smiles)
 
@@ -615,9 +717,8 @@ def run_single_experiment(params, output_dir):
     print(f"✅ Base training samples: {len(train)}")
     print(f"✅ Base test samples: {len(test_df)}")
 
+    # --- 2. 외부 데이터셋 로드 (사용자 코드 구조) ---
     print("\n📂 Loading external datasets...")
-
-    # 2. 외부 데이터셋을 안전하게 로드
     external_datasets = []
 
     def safe_load_dataset(path, target, processor_func, description):
@@ -634,7 +735,7 @@ def run_single_experiment(params, output_dir):
             print(f"   ⚠️ {description} failed: {str(e)[:100]}")
             return False
 
-    # 3. 외부 데이터 로드
+    # 외부 데이터 로드
     safe_load_dataset('Dataset/tc_SMILES/tc_SMILES.csv', 'Tc',
                       lambda df: df.rename(columns={'TC_mean': 'Tc'}),
                       'Tc data')
@@ -650,46 +751,102 @@ def run_single_experiment(params, output_dir):
     safe_load_dataset('Dataset/smiles-extra-data/data_dnst1.xlsx', 'Density',
                       lambda df: df.rename(columns={'density(g/cm3)': 'Density'})[['SMILES', 'Density']]
                       .query('SMILES.notnull() and Density.notnull() and Density != "nylon"')
-                      .assign(Density=lambda x: x['Density'].astype(float) - 0.118),
+                      .assign(Density=lambda x: pd.to_numeric(x['Density'], errors='coerce') - 0.118),
                       'Density data')
 
-    # 4. 외부 데이터 병합
-    def add_extra_data_clean(df_train, df_extra, target):
-        # 외부 데이터셋에서 SMILES 정제 후, target 값이 있는 데이터만 df_train에 병합
-        df_extra['SMILES'] = df_extra['SMILES'].apply(clean_and_validate_smiles)
-        df_extra = df_extra[df_extra['SMILES'].notnull()]
-        df_extra = df_extra.dropna(subset=[target])
-        if len(df_extra) == 0:
-            return df_train
-
-        # SMILES별 평균값 (중복 SMILES 처리)
-        df_extra = df_extra.groupby('SMILES', as_index=False)[target].mean()
-
-        # train에 없는 새로운 SMILES만 추가
-        unique_smiles_extra = set(df_extra['SMILES']) - set(df_train['SMILES'])
-        extra_to_add = df_extra[df_extra['SMILES'].isin(unique_smiles_extra)].copy()
-
-        if len(extra_to_add) > 0:
-            # 모든 타겟 컬럼을 맞춰서 추가
-            for col in TARGETS:
-                if col not in extra_to_add.columns:
-                    extra_to_add[col] = np.nan
-            extra_to_add = extra_to_add[['SMILES'] + TARGETS]
-            df_train = pd.concat([df_train, extra_to_add], axis=0, ignore_index=True)
-
-        return df_train
-
-    # 5. 병합 실행
+    # --- 3. 병합 실행 및 최종 처리  ---
     train_extended = train[['SMILES'] + TARGETS].copy()
     for target, dataset in external_datasets:
+        print(f"   🔄 Merging {target} data...")
         train_extended = add_extra_data_clean(train_extended, dataset, target)
 
-    # 6. 합 후 최종 clean 처리
+    # 합친 후 최종 clean 처리
     train_extended['SMILES'] = train_extended['SMILES'].apply(clean_and_validate_smiles)
     train_extended = train_extended[train_extended['SMILES'].notnull()].reset_index(drop=True)
-    train_df = train_extended
+    train_df = train_extended  # 최종 데이터프레임 할당
 
+    # --- 4. 최종 결과 확인 ---
     print(f"\n✅ Final extended training samples: {len(train_extended)}")
+    print(f"   Original samples: {len(train)}")
+    print(f"   Gain: +{len(train_extended) - len(train)} samples")
+
+    for target in TARGETS:
+        count = train_extended[target].notna().sum()
+        original_count = train[target].notna().sum()
+        gain = count - original_count
+        print(f"   - {target}: {count:,} samples (+{gain})")
+
+    # --- 데이터 로딩 및 병합 실행 ---
+
+    # 1. 기본 데이터 로드 및 정제
+    print("📂 Loading base train/test data...")
+    train = pd.read_csv(BASE_PATH + 'train.csv')
+    test_df = pd.read_csv(BASE_PATH + 'test.csv')
+
+    print("🔄 Cleaning and validating SMILES...")
+    train['SMILES'] = train['SMILES'].apply(clean_and_validate_smiles)
+    train = train[train['SMILES'].notnull()].reset_index(drop=True)
+    print(f"✅ Base training samples: {len(train)}")
+
+    # 2. 외부 데이터셋 로드
+    print("\n📂 Loading external datasets...")
+    external_datasets = []
+
+    def safe_load_dataset(path, target, processor_func, description):
+        try:
+            if path.endswith('.xlsx'):
+                data = pd.read_excel(path)
+            else:
+                data = pd.read_csv(path)
+            data = processor_func(data)
+            external_datasets.append((target, data))
+            print(f"   ✅ {description}: {len(data)} samples")
+            return True
+        except Exception as e:
+            print(f"   ⚠️ {description} failed: {str(e)[:100]}")
+            return False
+
+    # 외부 데이터 로드 (첫 번째 코드의 경로 사용)
+    safe_load_dataset('Dataset/tc_SMILES/tc_SMILES.csv', 'Tc',
+                      lambda df: df.rename(columns={'TC_mean': 'Tc'}),
+                      'Tc data')
+
+    safe_load_dataset('Dataset/tg_SMILES_PID_Polymer Class/tgSS_enriched_cleaned.csv', 'Tg',
+                      lambda df: df[['SMILES', 'Tg']] if 'Tg' in df.columns else df,
+                      'TgSS enriched data')
+
+    safe_load_dataset('Dataset/smiles-extra-data/JCIM_sup_bigsmiles.csv', 'Tg',
+                      lambda df: df[['SMILES', 'Tg (C)']].rename(columns={'Tg (C)': 'Tg'}),
+                      'JCIM Tg data')
+
+    safe_load_dataset('Dataset/smiles-extra-data/data_dnst1.xlsx', 'Density',
+                      lambda df: df.rename(columns={'density(g/cm3)': 'Density'})[['SMILES', 'Density']]
+                      .query('SMILES.notnull() and Density.notnull() and Density != "nylon"')
+                      .assign(Density=lambda x: pd.to_numeric(x['Density'], errors='coerce') - 0.118),
+                      # .astype 대신 to_numeric 사용
+                      'Density data')
+
+    # 3. 외부 데이터 병합 실행
+    print("\n🔄 Integrating external data...")
+    train_extended = train[['SMILES'] + TARGETS].copy()
+    for target, dataset in external_datasets:
+        print(f"   Processing {target} data...")
+        train_extended = add_extra_data_clean(train_extended, dataset, target)
+
+    # 4. 최종 결과 확인
+    print(f"\n📊 Final training data:")
+    print(f"   Original samples: {len(train)}")
+    print(f"   Extended samples: {len(train_extended)}")
+    print(f"   Gain: +{len(train_extended) - len(train)} samples")
+
+    for target in TARGETS:
+        count = train_extended[target].notna().sum()
+        original_count = train[target].notna().sum()
+        gain = count - original_count
+        print(f"   {target}: {count:,} samples (+{gain})")
+
+    print(f"\n✅ Data integration complete!")
+    train_df = train_extended  # 최종 데이터프레임
 
     def main(target_labels=None):
         """
@@ -826,11 +983,6 @@ def run_single_experiment(params, output_dir):
 
             # 4) Feature 결합 (DataFrame 사용)
             print(f"[{label}] 4) Feature 결합")
-            # RDKit 또는 PolyBERT 중 하나라도 켜져 있어야 합니다.
-            if not (DO_RDKit or DO_POLYBERT):
-                raise RuntimeError(
-                    f"[{label}] No features to combine: both DO_RDKit and DO_POLYBERT are False."
-                )
 
             # PolyBERT 임베딩을 DataFrame으로 만듭니다.
             df_emb = pd.DataFrame(emb, columns=[f'PolyBERT_{i}' for i in range(emb.shape[1])])
@@ -2105,11 +2257,11 @@ experiment_params = [
     # Row 1
     {"DO_RDKit": True, "DO_POLYBERT": False, "DO_FINGERPRINT": False, "RDKit_FILTER_MODE": "required", "DO_AUGMENT_SMILES": False, "AUG_NUM": 0, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": False, "VARIANCE_THRESHOLD": 0, "DO_StandardScaler": False, "N_SPLITS": 5},
     # Row 2
-    {"DO_RDKit": True, "DO_POLYBERT": False, "DO_FINGERPRINT": False, "RDKit_FILTER_MODE": "useless", "DO_AUGMENT_SMILES": True, "AUG_NUM": 1, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.1, "DO_StandardScaler": False, "N_SPLITS": 10},
+    {"DO_RDKit": True, "DO_POLYBERT": False, "DO_FINGERPRINT": False, "RDKit_FILTER_MODE": "required2", "DO_AUGMENT_SMILES": True, "AUG_NUM": 1, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.1, "DO_StandardScaler": False, "N_SPLITS": 10},
     # Row 3
     {"DO_RDKit": True, "DO_POLYBERT": False, "DO_FINGERPRINT": False, "RDKit_FILTER_MODE": "required", "DO_AUGMENT_SMILES": False, "AUG_NUM": 0, "DO_GMM_AUGMENT": True, "GMM_SAMPLES": 100, "GMM_COMPONENTS": 3, "GMM_RANDOM_STATE": 42, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.01, "DO_StandardScaler": True, "N_SPLITS": 5},
     # Row 4
-    {"DO_RDKit": True, "DO_POLYBERT": False, "DO_FINGERPRINT": False, "RDKit_FILTER_MODE": "useless", "DO_AUGMENT_SMILES": True, "AUG_NUM": 3, "DO_GMM_AUGMENT": True, "GMM_SAMPLES": 500, "GMM_COMPONENTS": 5, "GMM_RANDOM_STATE": 42, "DO_VARIANCE_THRESHOLD": False, "VARIANCE_THRESHOLD": 0, "DO_StandardScaler": True, "N_SPLITS": 10},
+    {"DO_RDKit": True, "DO_POLYBERT": False, "DO_FINGERPRINT": False, "RDKit_FILTER_MODE": "required2", "DO_AUGMENT_SMILES": True, "AUG_NUM": 3, "DO_GMM_AUGMENT": True, "GMM_SAMPLES": 500, "GMM_COMPONENTS": 5, "GMM_RANDOM_STATE": 42, "DO_VARIANCE_THRESHOLD": False, "VARIANCE_THRESHOLD": 0, "DO_StandardScaler": True, "N_SPLITS": 10},
     # Row 5
     {"DO_RDKit": False, "DO_POLYBERT": True, "DO_FINGERPRINT": False, "RDKit_FILTER_MODE": 0, "DO_AUGMENT_SMILES": True, "AUG_NUM": 5, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.001, "DO_StandardScaler": False, "N_SPLITS": 5},
     # Row 6
@@ -2129,17 +2281,17 @@ experiment_params = [
     # Row 13
     {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": False, "RDKit_FILTER_MODE": "required", "DO_AUGMENT_SMILES": False, "AUG_NUM": 0, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.1, "DO_StandardScaler": True, "N_SPLITS": 5},
     # Row 14
-    {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": False, "RDKit_FILTER_MODE": "useless", "DO_AUGMENT_SMILES": True, "AUG_NUM": 1, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": False, "VARIANCE_THRESHOLD": 0, "DO_StandardScaler": True, "N_SPLITS": 10},
+    {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": False, "RDKit_FILTER_MODE": "required2", "DO_AUGMENT_SMILES": True, "AUG_NUM": 1, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": False, "VARIANCE_THRESHOLD": 0, "DO_StandardScaler": True, "N_SPLITS": 10},
     # Row 15
     {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": False, "RDKit_FILTER_MODE": "required", "DO_AUGMENT_SMILES": True, "AUG_NUM": 3, "DO_GMM_AUGMENT": True, "GMM_SAMPLES": 100, "GMM_COMPONENTS": 3, "GMM_RANDOM_STATE": 42, "DO_VARIANCE_THRESHOLD": False, "VARIANCE_THRESHOLD": 0, "DO_StandardScaler": False, "N_SPLITS": 5},
     # Row 16
-    {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": False, "RDKit_FILTER_MODE": "useless", "DO_AUGMENT_SMILES": False, "AUG_NUM": 0, "DO_GMM_AUGMENT": True, "GMM_SAMPLES": 500, "GMM_COMPONENTS": 5, "GMM_RANDOM_STATE": 42, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.01, "DO_StandardScaler": False, "N_SPLITS": 10},
+    {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": False, "RDKit_FILTER_MODE": "required2", "DO_AUGMENT_SMILES": False, "AUG_NUM": 0, "DO_GMM_AUGMENT": True, "GMM_SAMPLES": 500, "GMM_COMPONENTS": 5, "GMM_RANDOM_STATE": 42, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.01, "DO_StandardScaler": False, "N_SPLITS": 10},
     # Row 17
-    {"DO_RDKit": True, "DO_POLYBERT": False, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "useless", "DO_AUGMENT_SMILES": False, "AUG_NUM": 0, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": False, "VARIANCE_THRESHOLD": 0, "DO_StandardScaler": False, "N_SPLITS": 5},
+    {"DO_RDKit": True, "DO_POLYBERT": False, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "required2", "DO_AUGMENT_SMILES": False, "AUG_NUM": 0, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": False, "VARIANCE_THRESHOLD": 0, "DO_StandardScaler": False, "N_SPLITS": 5},
     # Row 18
     {"DO_RDKit": True, "DO_POLYBERT": False, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "required", "DO_AUGMENT_SMILES": True, "AUG_NUM": 5, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.001, "DO_StandardScaler": False, "N_SPLITS": 10},
     # Row 19
-    {"DO_RDKit": True, "DO_POLYBERT": False, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "useless", "DO_AUGMENT_SMILES": True, "AUG_NUM": 1, "DO_GMM_AUGMENT": True, "GMM_SAMPLES": 1000, "GMM_COMPONENTS": 7, "GMM_RANDOM_STATE": 42, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.1, "DO_StandardScaler": True, "N_SPLITS": 5},
+    {"DO_RDKit": True, "DO_POLYBERT": False, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "required2", "DO_AUGMENT_SMILES": True, "AUG_NUM": 1, "DO_GMM_AUGMENT": True, "GMM_SAMPLES": 1000, "GMM_COMPONENTS": 7, "GMM_RANDOM_STATE": 42, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.1, "DO_StandardScaler": True, "N_SPLITS": 5},
     # Row 20
     {"DO_RDKit": True, "DO_POLYBERT": False, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "required", "DO_AUGMENT_SMILES": False, "AUG_NUM": 0, "DO_GMM_AUGMENT": True, "GMM_SAMPLES": 100, "GMM_COMPONENTS": 3, "GMM_RANDOM_STATE": 42, "DO_VARIANCE_THRESHOLD": False, "VARIANCE_THRESHOLD": 0, "DO_StandardScaler": True, "N_SPLITS": 10},
     # Row 21
@@ -2153,19 +2305,19 @@ experiment_params = [
     # Row 25
     {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "required", "DO_AUGMENT_SMILES": False, "AUG_NUM": 0, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": False, "VARIANCE_THRESHOLD": 0, "DO_StandardScaler": False, "N_SPLITS": 5},
     # Row 26
-    {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "useless", "DO_AUGMENT_SMILES": True, "AUG_NUM": 1, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.1, "DO_StandardScaler": False, "N_SPLITS": 10},
+    {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "required2", "DO_AUGMENT_SMILES": True, "AUG_NUM": 1, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.1, "DO_StandardScaler": False, "N_SPLITS": 10},
     # Row 27
     {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "required", "DO_AUGMENT_SMILES": False, "AUG_NUM": 0, "DO_GMM_AUGMENT": True, "GMM_SAMPLES": 100, "GMM_COMPONENTS": 3, "GMM_RANDOM_STATE": 42, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.01, "DO_StandardScaler": True, "N_SPLITS": 5},
     # Row 28
-    {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "useless", "DO_AUGMENT_SMILES": True, "AUG_NUM": 3, "DO_GMM_AUGMENT": True, "GMM_SAMPLES": 500, "GMM_COMPONENTS": 5, "GMM_RANDOM_STATE": 42, "DO_VARIANCE_THRESHOLD": False, "VARIANCE_THRESHOLD": 0, "DO_StandardScaler": True, "N_SPLITS": 10},
+    {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "required2", "DO_AUGMENT_SMILES": True, "AUG_NUM": 3, "DO_GMM_AUGMENT": True, "GMM_SAMPLES": 500, "GMM_COMPONENTS": 5, "GMM_RANDOM_STATE": 42, "DO_VARIANCE_THRESHOLD": False, "VARIANCE_THRESHOLD": 0, "DO_StandardScaler": True, "N_SPLITS": 10},
     # Row 29
     {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "required", "DO_AUGMENT_SMILES": True, "AUG_NUM": 5, "DO_GMM_AUGMENT": True, "GMM_SAMPLES": 1000, "GMM_COMPONENTS": 7, "GMM_RANDOM_STATE": 42, "DO_VARIANCE_THRESHOLD": False, "VARIANCE_THRESHOLD": 0, "DO_StandardScaler": False, "N_SPLITS": 5},
     # Row 30
-    {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "useless", "DO_AUGMENT_SMILES": False, "AUG_NUM": 0, "DO_GMM_AUGMENT": True, "GMM_SAMPLES": 100, "GMM_COMPONENTS": 3, "GMM_RANDOM_STATE": 42, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.001, "DO_StandardScaler": False, "N_SPLITS": 10},
+    {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "required2", "DO_AUGMENT_SMILES": False, "AUG_NUM": 0, "DO_GMM_AUGMENT": True, "GMM_SAMPLES": 100, "GMM_COMPONENTS": 3, "GMM_RANDOM_STATE": 42, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.001, "DO_StandardScaler": False, "N_SPLITS": 10},
     # Row 31
     {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "required", "DO_AUGMENT_SMILES": True, "AUG_NUM": 1, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": False, "VARIANCE_THRESHOLD": 0, "DO_StandardScaler": True, "N_SPLITS": 5},
     # Row 32
-    {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "useless", "DO_AUGMENT_SMILES": False, "AUG_NUM": 0, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.1, "DO_StandardScaler": True, "N_SPLITS": 10}
+    {"DO_RDKit": True, "DO_POLYBERT": True, "DO_FINGERPRINT": True, "RDKit_FILTER_MODE": "required2", "DO_AUGMENT_SMILES": False, "AUG_NUM": 0, "DO_GMM_AUGMENT": False, "GMM_SAMPLES": 0, "GMM_COMPONENTS": 0, "GMM_RANDOM_STATE": 0, "DO_VARIANCE_THRESHOLD": True, "VARIANCE_THRESHOLD": 0.1, "DO_StandardScaler": True, "N_SPLITS": 10}
 ]
 
 # ✅ 모든 실험 결과를 저장할 리스트
@@ -2173,57 +2325,57 @@ all_results = []
 MAIN_OUTPUT_DIR = Path("Output")
 MAIN_OUTPUT_DIR.mkdir(exist_ok=True)
 
-# ✅ 실험을 반복하기 위한 for loop
-# 1. tqdm 객체를 먼저 생성하고, file=sys.stdout 인자를 전달
-progress_bar = tqdm(experiment_params, desc="Running Experiments", file=sys.stdout, dynamic_ncols=True)
+# ✅ 실행할 “실험 번호” 리스트 (1-based)
+exp_num_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32]
 
-# 새로 정의한 redirect_to_tqdm 함수로 전체 루프를 감싸줌
-for idx, params in enumerate(progress_bar):
-    exp_num = idx + 1
-    OUTPUT_DIR = MAIN_OUTPUT_DIR / f"Output{exp_num}"
+# ✅ tqdm 객체 생성: exp_no는 1-based 실험번호, params는 해당 인덱스(0-based)에서 꺼냄
+progress_bar = tqdm(
+    [(exp_no, experiment_params[exp_no - 1]) for exp_no in exp_num_list],
+    desc="Running Experiments",
+    file=sys.stdout,
+    dynamic_ncols=True
+)
+
+# ✅ 실험 루프
+for exp_no, params in progress_bar:
+    OUTPUT_DIR = MAIN_OUTPUT_DIR / f"Output{exp_no}"
     OUTPUT_DIR.mkdir(exist_ok=True, parents=True)
 
-    log_filename = OUTPUT_DIR / f"experiment_{exp_num}_log.txt"
-    logger = None  # logger 초기화
+    log_filename = OUTPUT_DIR / f"experiment_{exp_no}_log.txt"
+    logger = None
     with redirect_to_tqdm():
         try:
             logger = TeeLogger(str(log_filename), mode='w')
 
-            # ✅ 함수화된 실험 로직 호출 (내부의 print문 수정 불필요)
+            # 함수화된 실험 로직 호출
             result = run_single_experiment(params, OUTPUT_DIR)
-            result['experiment_id'] = exp_num
+            result['experiment_id'] = exp_no
             result['status'] = 'Success'
             all_results.append(result)
 
         except Exception as e:
-            error_message = f"!!!!!! Experiment {exp_num} FAILED !!!!!!\nError: {e}"
+            error_message = f"!!!!!! Experiment {exp_no} FAILED !!!!!!\nError: {e}"
             print(error_message)
 
-            # 에러 발생 시 결과 기록
             failed_result = params.copy()
-            failed_result['experiment_id'] = exp_num
+            failed_result['experiment_id'] = exp_no
             failed_result['status'] = 'Failed'
             failed_result['error_message'] = str(e)
             all_results.append(failed_result)
-            continue  # 다음 실험으로 넘어감
+            continue
 
         finally:
-            # ✅ Logger 리소스 정리
             if logger:
                 logger.close()
-
-            # 자원 해제
             gc.collect()
 
-# ✅ 모든 실험이 끝난 후, 결과를 하나의 CSV 파일로 저장
+# ✅ 모든 실험이 끝난 후 결과 저장
 print("\n" + "=" * 50)
 print("All experiments are complete. Aggregating results...")
 if all_results:
     results_df = pd.DataFrame(all_results)
-
-    # 컬럼 순서 정리 (중요한 정보 앞으로)
     core_cols = ['experiment_id', 'status', 'elapsed_time_sec']
-    param_cols = [col for col in results_df.columns if col not in core_cols]
+    param_cols = [c for c in results_df.columns if c not in core_cols]
     results_df = results_df[core_cols + param_cols]
 
     summary_path = MAIN_OUTPUT_DIR / "experiment_summary.csv"
